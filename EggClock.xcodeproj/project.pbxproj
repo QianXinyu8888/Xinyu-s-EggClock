@@ -1,0 +1,510 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0300E13347D643B4A602C4F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAB1F4CED4686A2BA0650063 /* Main.storyboard */; };
+		130E9E40AA194ABD2CE4F810 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA92F3759F82E2845A3F4549 /* SceneDelegate.swift */; };
+		13272E5D7434323FB8CBDB13 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF10B300B7C0784A8F95F02 /* LiveActivityManager.swift */; };
+		25B046DCD7C708572E6D2CC4 /* EggClockWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 71A47812CF7F7C14812F9262 /* EggClockWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		338D983948D156C7931B4540 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E3D167550FEFFCD8B9D2EC /* ContentView.swift */; };
+		4FBF5117C3AAC9537F40BA03 /* Egg.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D536D03DC6EB5201DFADC1 /* Egg.swift */; };
+		51BEF1EBAFE28EA79B0E66A8 /* EggClockWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB264530CE3D852A649A308 /* EggClockWidgetBundle.swift */; };
+		7972379899C4B378776DF8C2 /* EggShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB18666C15C615F0C73B1D5B /* EggShortcuts.swift */; };
+		8222125244E7BBD376FA5921 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAA1DEF57FA9D27A297B643C /* LaunchScreen.storyboard */; };
+		97755C9D86B9F280278706AE /* EggClockActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D706A11015D07158D148D41A /* EggClockActivityAttributes.swift */; };
+		A153DCBBABD0FC453F59D214 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AE49BB3E09E00B8929FA3A /* NotificationManager.swift */; };
+		C2A2095568D97832CD0FFA9D /* EggEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24E9AFA15CF59E775BD8207 /* EggEditorView.swift */; };
+		C2E21105C371A5A076B22CA3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7C789F430C8A670D70C350 /* AppDelegate.swift */; };
+		DB0602E7C92ED7F59690B585 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 158A4F48E358CF075F60DE74 /* Assets.xcassets */; };
+		F19B9180827BC49793080805 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FC3A0C67EA52EFAF65D86C /* ViewController.swift */; };
+		FE75A731FFDBF413B0781EE1 /* EggClockActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D706A11015D07158D148D41A /* EggClockActivityAttributes.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0A1F1ABD2F49F9B88E59477C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C27D762C7FB867F71CFA2CC0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E9127EB564C04D2D87965131;
+			remoteInfo = EggClockWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B8F7BE96565EC425CB7C2DA4 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				25B046DCD7C708572E6D2CC4 /* EggClockWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		158A4F48E358CF075F60DE74 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		20FC3A0C67EA52EFAF65D86C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		22055F638376B4A525F5E033 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		36E3D167550FEFFCD8B9D2EC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		431B3A9AB996FAA82F4CFBA7 /* EggClock.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = EggClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		67D9EA7CEF4A753AABB641D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		71A47812CF7F7C14812F9262 /* EggClockWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = EggClockWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		90E67F29CAA90D1871118C8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9E7C789F430C8A670D70C350 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A3D536D03DC6EB5201DFADC1 /* Egg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Egg.swift; sourceTree = "<group>"; };
+		C4AE49BB3E09E00B8929FA3A /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		CB18666C15C615F0C73B1D5B /* EggShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EggShortcuts.swift; sourceTree = "<group>"; };
+		CEF10B300B7C0784A8F95F02 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
+		D706A11015D07158D148D41A /* EggClockActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EggClockActivityAttributes.swift; sourceTree = "<group>"; };
+		DA92F3759F82E2845A3F4549 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		E24E9AFA15CF59E775BD8207 /* EggEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EggEditorView.swift; sourceTree = "<group>"; };
+		F94BAB62AC16697BC7FFA4A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FAB264530CE3D852A649A308 /* EggClockWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EggClockWidgetBundle.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0EE09DECE901030E7689BD56 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				D706A11015D07158D148D41A /* EggClockActivityAttributes.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		175FE2CACD4D50895E95D3D4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				431B3A9AB996FAA82F4CFBA7 /* EggClock.app */,
+				71A47812CF7F7C14812F9262 /* EggClockWidget.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		42C89AE7AB0708FE0E449987 /* Xinyu's EggClock */ = {
+			isa = PBXGroup;
+			children = (
+				9E7C789F430C8A670D70C350 /* AppDelegate.swift */,
+				158A4F48E358CF075F60DE74 /* Assets.xcassets */,
+				36E3D167550FEFFCD8B9D2EC /* ContentView.swift */,
+				A3D536D03DC6EB5201DFADC1 /* Egg.swift */,
+				E24E9AFA15CF59E775BD8207 /* EggEditorView.swift */,
+				CB18666C15C615F0C73B1D5B /* EggShortcuts.swift */,
+				22055F638376B4A525F5E033 /* Info.plist */,
+				CEF10B300B7C0784A8F95F02 /* LiveActivityManager.swift */,
+				C4AE49BB3E09E00B8929FA3A /* NotificationManager.swift */,
+				DA92F3759F82E2845A3F4549 /* SceneDelegate.swift */,
+				20FC3A0C67EA52EFAF65D86C /* ViewController.swift */,
+				EAA1DEF57FA9D27A297B643C /* LaunchScreen.storyboard */,
+				DAB1F4CED4686A2BA0650063 /* Main.storyboard */,
+				0EE09DECE901030E7689BD56 /* Shared */,
+			);
+			path = "Xinyu's EggClock";
+			sourceTree = "<group>";
+		};
+		AA376598D43D651CAB465982 /* EggClockWidget */ = {
+			isa = PBXGroup;
+			children = (
+				FAB264530CE3D852A649A308 /* EggClockWidgetBundle.swift */,
+				90E67F29CAA90D1871118C8F /* Info.plist */,
+			);
+			name = EggClockWidget;
+			path = "Xinyu's EggClock/EggClockWidget";
+			sourceTree = "<group>";
+		};
+		F9F8F6F1188DB5B772F44BDD = {
+			isa = PBXGroup;
+			children = (
+				AA376598D43D651CAB465982 /* EggClockWidget */,
+				42C89AE7AB0708FE0E449987 /* Xinyu's EggClock */,
+				175FE2CACD4D50895E95D3D4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9425AE171D333579E20E0530 /* EggClock */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 492DB5EE9D7D0A18889C84E8 /* Build configuration list for PBXNativeTarget "EggClock" */;
+			buildPhases = (
+				F9BA08CC5086DDD5FA2853A1 /* Sources */,
+				D7C53CE26B6B6B31DE346478 /* Resources */,
+				B8F7BE96565EC425CB7C2DA4 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6FF421D7A63644963200BC2D /* PBXTargetDependency */,
+			);
+			name = EggClock;
+			packageProductDependencies = (
+			);
+			productName = EggClock;
+			productReference = 431B3A9AB996FAA82F4CFBA7 /* EggClock.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E9127EB564C04D2D87965131 /* EggClockWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4D82FB1E8D0B7BD37E721C8D /* Build configuration list for PBXNativeTarget "EggClockWidget" */;
+			buildPhases = (
+				0DC7C2571489C93BD7358ADC /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EggClockWidget;
+			packageProductDependencies = (
+			);
+			productName = EggClockWidget;
+			productReference = 71A47812CF7F7C14812F9262 /* EggClockWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C27D762C7FB867F71CFA2CC0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					9425AE171D333579E20E0530 = {
+						DevelopmentTeam = JG859Y62DP;
+						ProvisioningStyle = Automatic;
+					};
+					E9127EB564C04D2D87965131 = {
+						DevelopmentTeam = JG859Y62DP;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = A107612FE22B719BB31EDF61 /* Build configuration list for PBXProject "EggClock" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = F9F8F6F1188DB5B772F44BDD;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 175FE2CACD4D50895E95D3D4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9425AE171D333579E20E0530 /* EggClock */,
+				E9127EB564C04D2D87965131 /* EggClockWidget */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D7C53CE26B6B6B31DE346478 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB0602E7C92ED7F59690B585 /* Assets.xcassets in Resources */,
+				8222125244E7BBD376FA5921 /* LaunchScreen.storyboard in Resources */,
+				0300E13347D643B4A602C4F2 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0DC7C2571489C93BD7358ADC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				97755C9D86B9F280278706AE /* EggClockActivityAttributes.swift in Sources */,
+				51BEF1EBAFE28EA79B0E66A8 /* EggClockWidgetBundle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F9BA08CC5086DDD5FA2853A1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2E21105C371A5A076B22CA3 /* AppDelegate.swift in Sources */,
+				338D983948D156C7931B4540 /* ContentView.swift in Sources */,
+				4FBF5117C3AAC9537F40BA03 /* Egg.swift in Sources */,
+				FE75A731FFDBF413B0781EE1 /* EggClockActivityAttributes.swift in Sources */,
+				C2A2095568D97832CD0FFA9D /* EggEditorView.swift in Sources */,
+				7972379899C4B378776DF8C2 /* EggShortcuts.swift in Sources */,
+				13272E5D7434323FB8CBDB13 /* LiveActivityManager.swift in Sources */,
+				A153DCBBABD0FC453F59D214 /* NotificationManager.swift in Sources */,
+				130E9E40AA194ABD2CE4F810 /* SceneDelegate.swift in Sources */,
+				F19B9180827BC49793080805 /* ViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6FF421D7A63644963200BC2D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E9127EB564C04D2D87965131 /* EggClockWidget */;
+			targetProxy = 0A1F1ABD2F49F9B88E59477C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		DAB1F4CED4686A2BA0650063 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F94BAB62AC16697BC7FFA4A0 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		EAA1DEF57FA9D27A297B643C /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				67D9EA7CEF4A753AABB641D9 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		16C98367AC6213DC5F785A09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JG859Y62DP;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Xinyu's EggClock/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.xinyu.eggclock;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		37333F73A822838A0777FB34 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JG859Y62DP;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Xinyu's EggClock/EggClockWidget/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.xinyu.eggclock.widget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		4B5E72613CD2B533243E7FA5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B35DB464FFE72482169869CB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JG859Y62DP;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Xinyu's EggClock/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.xinyu.eggclock;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C3C0DA3D65BAB0591011BBB9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D082D96E793A308D7BB917F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JG859Y62DP;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Xinyu's EggClock/EggClockWidget/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.xinyu.eggclock.widget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		492DB5EE9D7D0A18889C84E8 /* Build configuration list for PBXNativeTarget "EggClock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16C98367AC6213DC5F785A09 /* Debug */,
+				B35DB464FFE72482169869CB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		4D82FB1E8D0B7BD37E721C8D /* Build configuration list for PBXNativeTarget "EggClockWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D082D96E793A308D7BB917F6 /* Debug */,
+				37333F73A822838A0777FB34 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A107612FE22B719BB31EDF61 /* Build configuration list for PBXProject "EggClock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4B5E72613CD2B533243E7FA5 /* Debug */,
+				C3C0DA3D65BAB0591011BBB9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C27D762C7FB867F71CFA2CC0 /* Project object */;
+}
