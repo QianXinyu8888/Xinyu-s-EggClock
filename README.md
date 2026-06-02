@@ -43,7 +43,7 @@ Xinyu's EggClock/
 ## 构建
 
 ```bash
-cd "/Users/xinyu/Desktop/Xcode folder/Xinyu's App2"
+cd "/Users/xinyu/Desktop/Xcode folder/Xinyu's EggClock"
 xcodegen generate
 xcodebuild -project EggClock.xcodeproj -scheme EggClock \
   -destination 'platform=iOS,id=00008150-000A1C363C38401C' \
