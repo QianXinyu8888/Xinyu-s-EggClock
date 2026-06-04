@@ -57,13 +57,3 @@ struct StartBoilingIntent: AppIntent {
     }
 }
 
-// MARK: - 快捷指令 URL
-enum SiriShortcutsURL {
-    /// 跳转快捷指令 App
-    static let shortcutsApp = URL(string: "shortcuts://")!
-
-    /// 打开快捷指令 App 并搜索指定蛋的快捷指令
-    static func searchURL(for eggName: String) -> URL {
-        URL(string: "shortcuts://")!
-    }
-}

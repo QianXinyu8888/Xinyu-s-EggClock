@@ -20,8 +20,8 @@
 		A153DCBBABD0FC453F59D214 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AE49BB3E09E00B8929FA3A /* NotificationManager.swift */; };
 		C2A2095568D97832CD0FFA9D /* EggEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24E9AFA15CF59E775BD8207 /* EggEditorView.swift */; };
 		C2E21105C371A5A076B22CA3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7C789F430C8A670D70C350 /* AppDelegate.swift */; };
+		C549F9FF212CBDCCACB8CC47 /* TimerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81A4D52E603779B288E1D19 /* TimerCoordinator.swift */; };
 		DB0602E7C92ED7F59690B585 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 158A4F48E358CF075F60DE74 /* Assets.xcassets */; };
-		F19B9180827BC49793080805 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FC3A0C67EA52EFAF65D86C /* ViewController.swift */; };
 		FE75A731FFDBF413B0781EE1 /* EggClockActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D706A11015D07158D148D41A /* EggClockActivityAttributes.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,7 +51,6 @@
 
 /* Begin PBXFileReference section */
 		158A4F48E358CF075F60DE74 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		20FC3A0C67EA52EFAF65D86C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		22055F638376B4A525F5E033 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		36E3D167550FEFFCD8B9D2EC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		431B3A9AB996FAA82F4CFBA7 /* EggClock.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = EggClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,6 +63,7 @@
 		CB18666C15C615F0C73B1D5B /* EggShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EggShortcuts.swift; sourceTree = "<group>"; };
 		CEF10B300B7C0784A8F95F02 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
 		D706A11015D07158D148D41A /* EggClockActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EggClockActivityAttributes.swift; sourceTree = "<group>"; };
+		D81A4D52E603779B288E1D19 /* TimerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerCoordinator.swift; sourceTree = "<group>"; };
 		DA92F3759F82E2845A3F4549 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E24E9AFA15CF59E775BD8207 /* EggEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EggEditorView.swift; sourceTree = "<group>"; };
 		F94BAB62AC16697BC7FFA4A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -101,7 +101,7 @@
 				CEF10B300B7C0784A8F95F02 /* LiveActivityManager.swift */,
 				C4AE49BB3E09E00B8929FA3A /* NotificationManager.swift */,
 				DA92F3759F82E2845A3F4549 /* SceneDelegate.swift */,
-				20FC3A0C67EA52EFAF65D86C /* ViewController.swift */,
+				D81A4D52E603779B288E1D19 /* TimerCoordinator.swift */,
 				EAA1DEF57FA9D27A297B643C /* LaunchScreen.storyboard */,
 				DAB1F4CED4686A2BA0650063 /* Main.storyboard */,
 				0EE09DECE901030E7689BD56 /* Shared */,
@@ -243,7 +243,7 @@
 				13272E5D7434323FB8CBDB13 /* LiveActivityManager.swift in Sources */,
 				A153DCBBABD0FC453F59D214 /* NotificationManager.swift in Sources */,
 				130E9E40AA194ABD2CE4F810 /* SceneDelegate.swift in Sources */,
-				F19B9180827BC49793080805 /* ViewController.swift in Sources */,
+				C549F9FF212CBDCCACB8CC47 /* TimerCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,7 +374,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 5.9;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -453,7 +453,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 5.9;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

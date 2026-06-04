@@ -16,6 +16,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = UIHostingController(rootView: ContentView())
         window?.makeKeyAndVisible()
+
+        // 注册 Siri Shortcuts 通知监听器（支持冷启动）
+        registerSiriIntentListener()
+    }
+
+    // MARK: - Siri Shortcut 冷启动支持
+    private func registerSiriIntentListener() {
+        NotificationCenter.default.addObserver(
+            forName: Notification.Name("startEggTimer"),
+            object: nil,
+            queue: .main
+        ) { notification in
+            guard let eggName = notification.userInfo?["eggName"] as? String else { return }
+            Task { @MainActor in
+                TimerCoordinator.shared.setPendingEgg(eggName)
+            }
+        }
     }
 
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {

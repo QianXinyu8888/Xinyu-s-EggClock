@@ -32,7 +32,7 @@ enum NotificationManager {
         content.title = "🔥 即将完成"
         content.body = "\(eggName) 快煮好了，准备关火！"
         content.sound = .default
-        content.interruptionLevel = .active
+        content.interruptionLevel = .timeSensitive
         let request = UNNotificationRequest(identifier: "egg-warning", content: content, trigger: nil)
         center.add(request)
     }

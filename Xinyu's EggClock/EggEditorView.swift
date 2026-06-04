@@ -16,7 +16,6 @@ struct EggEditorView: View {
     @State private var name: String = ""
     @State private var emoji: String = ""
     @State private var minutes: Int = 5
-    @State private var warningMinutes: Int = 4
 
     private let quickEmojis = ["🥚", "🍳", "🐣", "🐔", "🍗", "🥩", "🥓", "🌽", "🍠", "🥦", "🥕", "🍆", "🍱", "🥪", "🥗", "🍜"]
 
@@ -86,13 +85,6 @@ struct EggEditorView: View {
 
                 Section("计时时长") {
                     Stepper("共 \(minutes) 分钟", value: $minutes, in: 1...60)
-                    HStack {
-                        Text("煮好前")
-                        Spacer()
-                        Stepper("\(warningMinutes) 分钟提醒", value: $warningMinutes, in: 1...max(1, minutes - 1))
-                    }
-                    .foregroundStyle(.secondary)
-                    .font(.subheadline)
                 }
 
                 if existingEgg != nil {
@@ -120,7 +112,6 @@ struct EggEditorView: View {
                     name = egg.name
                     emoji = egg.emoji
                     minutes = egg.durationSeconds / 60
-                    warningMinutes = egg.warningSeconds / 60
                 }
             }
         }
@@ -132,7 +123,7 @@ struct EggEditorView: View {
             name: name.trimmingCharacters(in: .whitespaces),
             emoji: emoji,
             durationSeconds: minutes * 60,
-            warningSeconds: warningMinutes * 60
+            warningSeconds: (minutes * 60 * 9) / 10  // 始终为总时长的 90%
         )
         onSave(egg)
         dismiss()

@@ -71,15 +71,21 @@ extension Egg {
     }
 }
 
-// MARK: - 煮蛋统计
-private let totalSecondsKey = "EggClock.stats.totalSeconds"
-
-var totalSeconds: Int {
-    get { UserDefaults.standard.integer(forKey: totalSecondsKey) }
-    set { UserDefaults.standard.set(newValue, forKey: totalSecondsKey) }
-}
-
 extension Egg {
+    private static let totalSecondsKey = "EggClock.stats.totalSeconds"
+    private static let hasSentWarningKey = "EggClock.timer.hasSentWarning"
+
+    /// 本轮计时是否已发过 90% 预警（防止通知重复触发）
+    static var hasSentWarning: Bool {
+        get { UserDefaults.standard.bool(forKey: hasSentWarningKey) }
+        set { UserDefaults.standard.set(newValue, forKey: hasSentWarningKey) }
+    }
+
+    /// 重置预警标记（新计时开始时调用）
+    static func resetWarningFlag() {
+        UserDefaults.standard.removeObject(forKey: hasSentWarningKey)
+    }
+
     static var totalSeconds: Int {
         get { UserDefaults.standard.integer(forKey: totalSecondsKey) }
         set { UserDefaults.standard.set(newValue, forKey: totalSecondsKey) }
@@ -109,5 +115,50 @@ extension Egg {
     static func recordBoiling(seconds: Int) {
         totalCount += 1
         totalSeconds += seconds
+    }
+
+    // MARK: - 计时器持久化（App 被终止后冷启动恢复）
+    private static let timerEndTimeKey     = "EggClock.timer.endTime"
+    private static let timerPausedElapsedKey = "EggClock.timer.pausedElapsed"
+    private static let timerEggIdKey        = "EggClock.timer.eggId"
+    private static let timerEggNameKey      = "EggClock.timer.eggName"
+    private static let timerEggEmojiKey     = "EggClock.timer.eggEmoji"
+    private static let timerTotalKey        = "EggClock.timer.total"
+
+    /// 持久化保存当前计时器状态（App 进入后台时调用）
+    static func saveTimerPersistentState(
+        endTime: Date,
+        pausedElapsed: Int,
+        egg: Egg
+    ) {
+        let defaults = UserDefaults.standard
+        defaults.set(endTime.timeIntervalSince1970, forKey: timerEndTimeKey)
+        defaults.set(pausedElapsed, forKey: timerPausedElapsedKey)
+        defaults.set(egg.id.uuidString, forKey: timerEggIdKey)
+        defaults.set(egg.name, forKey: timerEggNameKey)
+        defaults.set(egg.emoji, forKey: timerEggEmojiKey)
+        defaults.set(egg.durationSeconds, forKey: timerTotalKey)
+    }
+
+    /// 清除持久化的计时器状态（计时结束/主动停止时调用）
+    static func clearTimerPersistentState() {
+        let defaults = UserDefaults.standard
+        [timerEndTimeKey, timerPausedElapsedKey, timerEggIdKey,
+         timerEggNameKey, timerEggEmojiKey, timerTotalKey].forEach { defaults.removeObject(forKey: $0) }
+    }
+
+    /// 尝试恢复持久化的计时器状态（返回恢复所需数据，或 nil）
+    static func loadTimerPersistentState() -> (
+        endTime: Date, pausedElapsed: Int, eggName: String,
+        eggEmoji: String, total: Int
+    )? {
+        let defaults = UserDefaults.standard
+        guard defaults.object(forKey: timerEndTimeKey) != nil else { return nil }
+        guard let endTimeInterval = defaults.object(forKey: timerEndTimeKey) as? TimeInterval else { return nil }
+        let pausedElapsed = defaults.integer(forKey: timerPausedElapsedKey)
+        let eggName = defaults.string(forKey: timerEggNameKey) ?? ""
+        let eggEmoji = defaults.string(forKey: timerEggEmojiKey) ?? "🍳"
+        let total = defaults.integer(forKey: timerTotalKey)
+        return (Date(timeIntervalSince1970: endTimeInterval), pausedElapsed, eggName, eggEmoji, total)
     }
 }

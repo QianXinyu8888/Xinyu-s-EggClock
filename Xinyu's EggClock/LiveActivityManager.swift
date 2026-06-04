@@ -28,7 +28,11 @@ final class LiveActivityManager {
     }
 
     // MARK: - 开始计时
-    func startActivity(eggName: String, eggEmoji: String, total: Int) {
+    /// - Parameters:
+    ///   - initialElapsed: 冷启动恢复时传入已用秒数，默认 0
+    ///   - endTimeOverride: 冷启动恢复时传入已有的 endTime，默认由 total 计算
+    func startActivity(eggName: String, eggEmoji: String, total: Int,
+                       initialElapsed: Int = 0, endTimeOverride: Date? = nil) {
         guard areActivitiesEnabled else {
             print("⚠️ Live Activities 未启用，请在设置中开启")
             return
@@ -37,12 +41,14 @@ final class LiveActivityManager {
         // 结束旧 Activity（同步清理引用）
         endActivity(waitForDismiss: false)
 
-        let endTime = Date().addingTimeInterval(TimeInterval(total))
+        let elapsed = initialElapsed
+        let endTime = endTimeOverride ?? Date().addingTimeInterval(TimeInterval(total - elapsed))
+        let progress = total > 0 ? min(1.0, Double(elapsed) / Double(total)) : 0.0
         let attributes = EggClockActivityAttributes(eggName: eggName, eggEmoji: eggEmoji)
         let contentState = EggClockActivityAttributes.ContentState(
-            elapsed: 0,
+            elapsed: elapsed,
             total: total,
-            progress: 0.0,
+            progress: progress,
             hintText: "🔥 正在煮 \(eggName)",
             timerState: "running",
             endTime: endTime
@@ -61,12 +67,25 @@ final class LiveActivityManager {
     }
 
     // MARK: - 更新进度（每秒调用一次）
-    func updateActivity(elapsed: Int, total: Int, hintText: String, timerState: String) {
+    /// - Parameters:
+    ///   - endTimeOverride: 手动指定结束时间（用于后台恢复时同步 LiveActivity 时钟）
+    func updateActivity(
+        elapsed: Int,
+        total: Int,
+        hintText: String,
+        timerState: String,
+        endTimeOverride: Date? = nil
+    ) {
         guard let activity = findCurrentActivity() else { return }
 
         let progress = total > 0 ? min(1.0, Double(elapsed) / Double(total)) : 0.0
-        let remaining = max(0, total - elapsed)
-        let endTime = Date().addingTimeInterval(TimeInterval(remaining))
+        let endTime: Date
+        if let override = endTimeOverride {
+            endTime = override
+        } else {
+            let remaining = max(0, total - elapsed)
+            endTime = Date().addingTimeInterval(TimeInterval(remaining))
+        }
 
         let contentState = EggClockActivityAttributes.ContentState(
             elapsed: elapsed,
@@ -77,6 +96,8 @@ final class LiveActivityManager {
             endTime: endTime
         )
 
+        // staleDate = nil 让 iOS 自行根据 endTime 持续刷新 Dynamic Island
+        // 如果不设 nil，iOS 会在 endTime + 60s 时认为内容过时而停止刷新
         Task {
             await activity.update(ActivityContent(state: contentState, staleDate: nil))
         }
@@ -129,10 +150,14 @@ final class LiveActivityManager {
         // 立即清除引用（不等 Task 完成）
         currentActivityID = nil
 
-        // ⚠️ endTime = Date() 而非 nil，否则 Widget 端 remaining=0-0=0 显示 "0:00"
+        // 从 endTime 计算最终 elapsed（不再依赖每秒更新的 stale 值）
+        let state = activity.content.state
+        let remaining = max(0, Int((state.endTime ?? Date()).timeIntervalSinceNow))
+        let finalElapsed = max(0, state.total - remaining)
+        let finalTotal = state.total
         let finalState = EggClockActivityAttributes.ContentState(
-            elapsed: 0,
-            total: 0,
+            elapsed: finalElapsed,
+            total: finalTotal,
             progress: 1.0,
             hintText: "✅ 煮蛋完成",
             timerState: "done",
