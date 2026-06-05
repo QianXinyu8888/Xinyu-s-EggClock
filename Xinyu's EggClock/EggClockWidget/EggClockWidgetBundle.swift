@@ -11,17 +11,36 @@ import WidgetKit
 import SwiftUI
 import ActivityKit
 
+// MARK: - 颜色扩展（统一使用亮色系，确保暗黑模式下清晰可见）
+
+extension Color {
+    /// 主文字：接近纯白
+    static let eggPrimary = Color(red: 0.98, green: 0.98, blue: 1.0)
+    /// 次要文字
+    static let eggSecondary = Color(red: 0.75, green: 0.77, blue: 0.82)
+    /// 极淡文字（用于标签前缀等）
+    static let eggMuted = Color(red: 0.60, green: 0.62, blue: 0.68)
+    /// 暗色模式进度条轨道
+    static let eggTrack = Color(red: 0.22, green: 0.22, blue: 0.26)
+    /// 暗色模式标签背景
+    static let eggPillBg = Color(red: 0.28, green: 0.28, blue: 0.33)
+}
+
 // MARK: - 工具函数
 
 /// 格式化秒数 → "Nmin Ss"（例：12min 3s），s=0 时省略秒
-private func formatMinSec(_ totalSeconds: Int) -> String {
+fileprivate func formatMinSec(_ totalSeconds: Int) -> String {
     let m = totalSeconds / 60
     let s = totalSeconds % 60
     if s == 0 { return "\(m)min" }
     return "\(m)min \(s)s"
 }
 
-
+/// 根据 elapsed/total 实时计算 progress（删除了 ContentState.progress 字段后改用此函数）
+fileprivate func computeProgress(elapsed: Int, total: Int) -> Double {
+    guard total > 0 else { return 0 }
+    return min(1.0, Double(elapsed) / Double(total))
+}
 
 // MARK: - Live Activity
 
@@ -42,10 +61,10 @@ struct EggClockLiveActivity: Widget {
                         .padding(.leading, 6)
                 }
                 
-                // ── 从 ContentState 读取实时数据（App 每秒推送更新）──
+                // ── 实时计算 progress（不再依赖 ContentState.progress）──
                 let elapsed = Double(context.state.elapsed)
                 let total = Double(context.state.total)
-                let progress = context.state.progress
+                let progress = computeProgress(elapsed: Int(elapsed), total: Int(total))
                 let remaining = max(0.0, total - elapsed)
                 
                 // 根据进度计算当前阶段
@@ -60,7 +79,7 @@ struct EggClockLiveActivity: Widget {
                                 .font(.system(size: 20))
                             Text(context.attributes.eggName)
                                 .font(.system(size: 12, weight: .bold))
-                                .foregroundStyle(.white)
+                                .foregroundStyle(Color.eggPrimary)
                                 .lineLimit(1)
                         }
                         
@@ -70,7 +89,7 @@ struct EggClockLiveActivity: Widget {
                         if remaining > 0, let endTime = context.state.endTime {
                             Text(endTime, style: .timer)
                                 .font(.system(size: 34, weight: .black, design: .rounded))
-                                .foregroundStyle(.white)
+                                .foregroundStyle(Color.eggPrimary)
                                 .contentTransition(.numericText())
                         } else {
                             Text("✅ 完成")
@@ -84,7 +103,7 @@ struct EggClockLiveActivity: Widget {
                         HStack(spacing: 4) {
                             Text("当前状态：")
                                 .font(.system(size: 9, weight: .medium))
-                                .foregroundStyle(.white.opacity(0.55))
+                                .foregroundStyle(Color.eggMuted)
                             Circle()
                                 .fill(phaseColor)
                                 .frame(width: 5, height: 5)
@@ -96,7 +115,7 @@ struct EggClockLiveActivity: Widget {
                         .padding(.vertical, 4)
                         .background(
                             Capsule()
-                                .fill(phaseColor.opacity(0.15))
+                                .fill(Color.eggPillBg)
                         )
                     }
                 }
@@ -105,7 +124,7 @@ struct EggClockLiveActivity: Widget {
                     GeometryReader { geo in
                         ZStack(alignment: .leading) {
                             Capsule()
-                                .fill(.white.opacity(0.1))
+                                .fill(Color.eggTrack)
                             
                             Capsule()
                                 .fill(
@@ -136,7 +155,7 @@ struct EggClockLiveActivity: Widget {
                     // 蛋名优先显示，不截断
                     Text(context.attributes.eggName)
                         .font(.system(size: 10, weight: .semibold))
-                        .foregroundStyle(.white.opacity(0.95))
+                        .foregroundStyle(Color.eggPrimary)
                         .lineLimit(1)
                         .minimumScaleFactor(0.7)
                 }
@@ -144,7 +163,7 @@ struct EggClockLiveActivity: Widget {
             } compactTrailing: {
                 let remaining = max(0.0, context.state.endTime?.timeIntervalSinceNow ?? 0.0)
                 let total = Double(context.state.total)
-                let progress = total > 0 ? min(1.0, (total - remaining) / total) : 0.0
+                let progress = total > 0 ? min(1.0, (Double(context.state.total) - remaining) / total) : 0.0
                 let phaseColor: Color = progress < 0.25 ? .yellow : (progress < 0.6 ? .orange : (progress < 0.9 ? .red : .green))
                 if remaining > 0, let endTime = context.state.endTime {
                     Text(endTime, style: .timer)
@@ -163,10 +182,10 @@ struct EggClockLiveActivity: Widget {
             } minimal: {
                 let remaining = max(0.0, context.state.endTime?.timeIntervalSinceNow ?? 0.0)
                 let total = Double(context.state.total)
-                let progress = total > 0 ? min(1.0, (total - remaining) / total) : 0.0
+                let progress = total > 0 ? min(1.0, (Double(context.state.total) - remaining) / total) : 0.0
                 ZStack {
                     Circle()
-                        .stroke(.white.opacity(0.1), lineWidth: 2)
+                        .stroke(Color.eggTrack, lineWidth: 2)
                     
                     Circle()
                         .trim(from: 0, to: progress)
@@ -224,7 +243,7 @@ struct LockScreenView: View {
                 HStack(alignment: .firstTextBaseline) {
                     Text(context.attributes.eggName)
                         .font(.system(size: 19, weight: .bold))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(Color.eggPrimary)
                     
                     Spacer()
                     
@@ -233,7 +252,7 @@ struct LockScreenView: View {
                         .foregroundStyle(phaseColor)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 4)
-                        .background(phaseColor.opacity(0.15), in: Capsule())
+                        .background(Color.eggPillBg, in: Capsule())
                 }
                 
                 if remaining > 0, let endTime = context.state.endTime {
@@ -249,7 +268,7 @@ struct LockScreenView: View {
                 
                 GeometryReader { geo in
                     ZStack(alignment: .leading) {
-                        Capsule().fill(.white.opacity(0.08))
+                        Capsule().fill(Color.eggTrack)
                         Capsule().fill(
                             LinearGradient(
                                 colors: [.orange, .yellow],
@@ -267,15 +286,15 @@ struct LockScreenView: View {
                 HStack {
                     Text(formatMinSec(Int(elapsed)))
                         .font(.system(size: 13, weight: .semibold, design: .rounded))
-                        .foregroundStyle(.white.opacity(0.7))
+                        .foregroundStyle(Color.eggSecondary)
                     
                     Text("/")
                         .font(.system(size: 13))
-                        .foregroundStyle(.white.opacity(0.25))
+                        .foregroundStyle(Color.eggMuted)
                     
                     Text(formatMinSec(Int(total)))
                         .font(.system(size: 13, weight: .medium, design: .rounded))
-                        .foregroundStyle(.white.opacity(0.35))
+                        .foregroundStyle(Color.eggMuted)
                     
                     Spacer()
                     

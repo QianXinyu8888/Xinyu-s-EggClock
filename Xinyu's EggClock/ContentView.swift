@@ -11,29 +11,29 @@ import AudioToolbox
 
 // MARK: - 触感反馈管理器
 private enum HapticsManager {
-    // 静态引用，避免generator被dealloc导致haptic不触发
     private static let lightGenerator = UIImpactFeedbackGenerator(style: .light)
     private static let notificationGenerator = UINotificationFeedbackGenerator()
 
-    /// 按钮轻触（Gemini 发消息同款）
-    static func lightTap() {
+    /// 预热 generators（首次触感延迟 ~50ms，提前 prepare 消除）
+    static func prepare() {
         lightGenerator.prepare()
+        notificationGenerator.prepare()
+    }
+
+
+    static func lightTap() {
         lightGenerator.impactOccurred()
     }
-    /// 计时完成 / 成功
     static func success() {
-        notificationGenerator.prepare()
         notificationGenerator.notificationOccurred(.success)
     }
-    /// 90% 预警（警告）
     static func warning() {
-        notificationGenerator.prepare()
         notificationGenerator.notificationOccurred(.warning)
     }
 }
 
 // MARK: - 工具函数
-private func formatMinSec(_ totalSeconds: Int) -> String {
+fileprivate func formatMinSec(_ totalSeconds: Int) -> String {
     let m = totalSeconds / 60
     let s = totalSeconds % 60
     if s == 0 { return "\(m)min" }
@@ -65,6 +65,9 @@ struct ContentView: View {
 
     private let bgYellow = Color(red: 1.0, green: 0.84, blue: 0.0)
 
+    // ── 后台保活：保存 beginBackgroundTask identifier ────────────────────
+    @State private var backgroundTaskID: UIBackgroundTaskIdentifier = .invalid
+
     var body: some View {
         ZStack {
             bgYellow.ignoresSafeArea()
@@ -79,6 +82,7 @@ struct ContentView: View {
         }
         .animation(.easeInOut(duration: 0.25), value: timerState)
         .onAppear {
+            HapticsManager.prepare()
             customEggs = Egg.customEggs
             NotificationManager.request()
             setupIntentListener()
@@ -248,7 +252,7 @@ struct ContentView: View {
                     } label: {
                         Image(systemName: timerState == .paused ? "play.fill" : "pause.fill")
                             .font(.system(size: 32, weight: .semibold))
-                            .foregroundStyle(.black)
+                            .foregroundStyle(Color(white: 0.18))
                             .frame(width: 72, height: 72)
                             .background(Circle().fill(Color(red: 1.0, green: 0.97, blue: 0.88)))
                             .shadow(color: .black.opacity(0.12), radius: 4, y: 2)
@@ -295,7 +299,7 @@ struct ContentView: View {
 
             Text("\(formatMinSec(elapsed)) / \(formatMinSec(egg.durationSeconds))")
                 .font(.system(size: 28, weight: .bold, design: .rounded))
-                .foregroundStyle(.black)
+                .foregroundStyle(Color(white: 0.18))
                 .padding(.horizontal, 24)
                 .padding(.vertical, 10)
                 .background(RoundedRectangle(cornerRadius: 14).fill(Color(red: 1.0, green: 0.97, blue: 0.88)))
@@ -313,7 +317,7 @@ struct ContentView: View {
                 .font(.system(size: 56))
             Text("✅ 完成！可以关火了")
                 .font(.system(size: 22, weight: .bold))
-                .foregroundStyle(.black)
+                .foregroundStyle(Color(white: 0.18))
             Button {
                 highlightEgg(egg)
             } label: {
@@ -336,7 +340,7 @@ struct ContentView: View {
                 .font(.system(size: 50))
             Text(egg.name)
                 .font(.system(size: 22, weight: .bold))
-                .foregroundStyle(.black)
+                .foregroundStyle(Color(white: 0.18))
             Text("约 \(egg.durationSeconds / 60) 分钟")
                 .font(.system(size: 13))
                 .foregroundStyle(.black.opacity(0.5))
@@ -445,8 +449,8 @@ struct ContentView: View {
                 )
             }
         } else if timerState == .paused {
-            // 恢复运行时直接复用 startTimer，复用同一 Timer
-            startTimer()
+            // 恢复运行时传入 isResume=true，保留已发预警标记
+            startTimer(isResume: true)
         }
     }
 
@@ -466,9 +470,8 @@ struct ContentView: View {
         selectedEgg = nil
     }
 
-    private func startTimer() {
-        let isResume = (timerState == .paused)
-        // 新计时开始时重置预警标记；恢复运行时若已发过预警则保留标记（避免重复发）
+    private func startTimer(isResume: Bool = false) {
+        // 新计时开始时重置预警标记；恢复运行时保留已发预警（避免重复发）
         if !isResume && !Egg.hasSentWarning { Egg.resetWarningFlag() }
         // 恢复时 timerStartTime 设为 nil，下次 computeElapsed 会只返回 pausedElapsed
         timerStartTime = Date()
@@ -553,7 +556,10 @@ struct ContentView: View {
         // 记录当前已用时间
         pausedElapsed = computeElapsed()
         timerStartTime = nil
-        isUserPaused = false  // false = App后台挂起（非用户手动暂停）
+        // 只有后台挂起才覆盖，用户手动暂停则保持 isUserPaused = true
+        if !isUserPaused {
+            isUserPaused = false
+        }
 
         // 退后台前推送最终状态（elapsed/endTime），确保 Widget 显示最新进度
         let currentEndTime = Date().addingTimeInterval(TimeInterval(egg.durationSeconds - pausedElapsed))
@@ -565,9 +571,6 @@ struct ContentView: View {
             endTimeOverride: currentEndTime
         )
         print("[EggClock] 🔴 saveTimerState — elapsed=\(pausedElapsed) endTime=\(currentEndTime)")
-        // endTime 是绝对时间戳，不会因 App 挂起而失效
-        // 唯一需要保留 endTime 的原因是：持久化保存供冷启动恢复使用
-        print("[EggClock] 🔴 saveTimerState — elapsed=\(pausedElapsed) endTime=\(currentEndTime) (no updateActivity)")
 
         // 持久化保存（App 被终止后冷启动也能恢复）
         Egg.saveTimerPersistentState(
@@ -585,8 +588,10 @@ struct ContentView: View {
             Egg.hasSentWarning = true
         }
 
-        // ── 后台保活（不再更新灵动岛，只为延长 App 后台时间以处理潜在通知）───
-        _ = UIApplication.shared.beginBackgroundTask { }
+        // ── 后台保活 ──────────────────────────────────────────────────────
+        backgroundTaskID = UIApplication.shared.beginBackgroundTask(expirationHandler: { [backgroundTaskID] in
+            _ = backgroundTaskID
+        })
     }
 
     /// App 恢复时：根据 Date 恢复计时（后台经过时间自动计入）
@@ -609,15 +614,9 @@ struct ContentView: View {
         }
         lastRestoreTime = now
 
-        // 从持久化状态读取保存的 endTime，计算实际经过时间
-        if let saved = Egg.loadTimerPersistentState() {
-            // 正确公式：remaining = endTime 距现在还有多少秒
-            let remaining = max(0, Int(saved.endTime.timeIntervalSince(now)))
-            // actualElapsed = 保存时已走的 + 后台期间走过的
-            let backgroundElapsed = (saved.total - saved.pausedElapsed) - remaining
-            let actualElapsed = saved.pausedElapsed + max(0, backgroundElapsed)
-            pausedElapsed = min(egg.durationSeconds, max(0, actualElapsed))
-            print("[EggClock] 🟢 restoreTimerIfNeeded — actualElapsed=\(pausedElapsed) (was \(saved.pausedElapsed)) remaining=\(remaining)s")
+        // 持久化数据清理（pausedElapsed 已在 onAppear 冷启动恢复时计算过，无需重复）
+        if let saved = Egg.loadTimerPersistentState(), saved.endTime <= now {
+            Egg.clearTimerPersistentState()
         }
 
         // 恢复 LiveActivity 的 endTime（基于当前时间重新计算）
@@ -631,10 +630,10 @@ struct ContentView: View {
             endTimeOverride: newEndTime
         )
 
-        // 只有没有被用户手动暂停时才重启 Timer
+        // 只有没有被用户手动暂停时才重启 Timer（传入 isResume=true 避免重复 reset 预警标记）
         if !isUserPaused {
             timerStartTime = now
-            startTimer()
+            startTimer(isResume: true)
         }
         print("[EggClock] 🟢 restoreTimerIfNeeded done")
     }
@@ -747,7 +746,7 @@ struct StatsView: View {
                     VStack(alignment: .leading, spacing: 14) {
                         Text("蛋种")
                             .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color(white: 0.45))
                             .padding(.horizontal, 4)
 
                         let allEggs = Egg.allEggs
@@ -758,13 +757,13 @@ struct StatsView: View {
                                 Text(egg.emoji).font(.system(size: 22))
                                 Text(egg.name)
                                     .font(.system(size: 15, weight: .medium))
-                                    .foregroundStyle(.black)
+                                    .foregroundStyle(Color(red: 0.18, green: 0.18, blue: 0.18))
                                     .frame(width: 70, alignment: .leading)
 
                                 // 时长对比条
                                 GeometryReader { geo in
                                     ZStack(alignment: .leading) {
-                                        Capsule().fill(.black.opacity(0.06))
+                                        Capsule().fill(Color(white: 0.82))
                                         Capsule().fill(
                                             Color.orange.opacity(0.6)
                                         )
@@ -775,7 +774,7 @@ struct StatsView: View {
 
                                 Text("\(egg.durationSeconds / 60) min")
                                     .font(.system(size: 13, weight: .medium, design: .rounded))
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(Color(white: 0.45))
                                     .frame(width: 42, alignment: .trailing)
                             }
                             .padding(.vertical, 4)
@@ -784,7 +783,7 @@ struct StatsView: View {
                     .padding(16)
                     .background(
                         RoundedRectangle(cornerRadius: 16)
-                            .fill(Color(.systemBackground).opacity(0.5))
+                            .fill(Color(white: 0.95))
                     )
                     .padding(.horizontal, 20)
                 }
@@ -814,12 +813,12 @@ struct StatsView: View {
                         .foregroundStyle(color)
                     Text(unit)
                         .font(.system(size: 14))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color(white: 0.45))
                 }
             }
             Text(title)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color(white: 0.45))
         }
         .frame(maxWidth: .infinity)
     }

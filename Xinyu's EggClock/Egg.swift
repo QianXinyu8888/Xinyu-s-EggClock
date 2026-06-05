@@ -75,7 +75,7 @@ extension Egg {
     private static let totalSecondsKey = "EggClock.stats.totalSeconds"
     private static let hasSentWarningKey = "EggClock.timer.hasSentWarning"
 
-    /// 本轮计时是否已发过 90% 预警（防止通知重复触发）
+    /// 本轮计时是否已发过 90% 预警（持久化存储，跨 App 重启不丢失）
     static var hasSentWarning: Bool {
         get { UserDefaults.standard.bool(forKey: hasSentWarningKey) }
         set { UserDefaults.standard.set(newValue, forKey: hasSentWarningKey) }

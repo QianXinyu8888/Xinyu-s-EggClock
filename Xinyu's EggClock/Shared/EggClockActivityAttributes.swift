@@ -12,16 +12,14 @@ public struct EggClockActivityAttributes: ActivityAttributes {
     public struct ContentState: Codable, Hashable {
         public var elapsed: Int
         public var total: Int
-        public var progress: Double
         public var hintText: String
         public var timerState: String
         /// 计时结束时间（用于倒计时显示），nil 表示无倒计时
         public var endTime: Date?
 
-        public init(elapsed: Int, total: Int, progress: Double, hintText: String, timerState: String, endTime: Date? = nil) {
+        public init(elapsed: Int, total: Int, hintText: String, timerState: String, endTime: Date? = nil) {
             self.elapsed = elapsed
             self.total = total
-            self.progress = progress
             self.hintText = hintText
             self.timerState = timerState
             self.endTime = endTime

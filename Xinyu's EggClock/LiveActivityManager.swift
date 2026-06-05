@@ -21,10 +21,15 @@ final class LiveActivityManager {
         ActivityAuthorizationInfo().areActivitiesEnabled
     }
 
-    /// 查找当前活动的 Activity 实例
+    /// 查找当前活动的 Activity 实例（Activity 列表可能已被系统清理，防御式返回 nil）
     private func findCurrentActivity() -> Activity<EggClockActivityAttributes>? {
         guard let id = currentActivityID else { return nil }
-        return Activity<EggClockActivityAttributes>.activities.first { $0.id == id }
+        guard let activity = Activity<EggClockActivityAttributes>.activities.first(where: { $0.id == id }) else {
+            // Activity 已被系统移除，清除本地缓存的 ID
+            currentActivityID = nil
+            return nil
+        }
+        return activity
     }
 
     // MARK: - 开始计时
@@ -43,12 +48,10 @@ final class LiveActivityManager {
 
         let elapsed = initialElapsed
         let endTime = endTimeOverride ?? Date().addingTimeInterval(TimeInterval(total - elapsed))
-        let progress = total > 0 ? min(1.0, Double(elapsed) / Double(total)) : 0.0
         let attributes = EggClockActivityAttributes(eggName: eggName, eggEmoji: eggEmoji)
         let contentState = EggClockActivityAttributes.ContentState(
             elapsed: elapsed,
             total: total,
-            progress: progress,
             hintText: "🔥 正在煮 \(eggName)",
             timerState: "running",
             endTime: endTime
@@ -78,7 +81,6 @@ final class LiveActivityManager {
     ) {
         guard let activity = findCurrentActivity() else { return }
 
-        let progress = total > 0 ? min(1.0, Double(elapsed) / Double(total)) : 0.0
         let endTime: Date
         if let override = endTimeOverride {
             endTime = override
@@ -90,7 +92,6 @@ final class LiveActivityManager {
         let contentState = EggClockActivityAttributes.ContentState(
             elapsed: elapsed,
             total: total,
-            progress: progress,
             hintText: hintText,
             timerState: timerState,
             endTime: endTime
@@ -112,7 +113,6 @@ final class LiveActivityManager {
         let contentState = EggClockActivityAttributes.ContentState(
             elapsed: elapsed,
             total: total,
-            progress: total > 0 ? min(1.0, Double(elapsed) / Double(total)) : 0.0,
             hintText: "⏸ \(eggName) 已暂停",
             timerState: "paused",
             endTime: endTime
@@ -132,7 +132,6 @@ final class LiveActivityManager {
         let contentState = EggClockActivityAttributes.ContentState(
             elapsed: elapsed,
             total: total,
-            progress: total > 0 ? min(1.0, Double(elapsed) / Double(total)) : 0.0,
             hintText: "🔥 继续煮 \(eggName)",
             timerState: "running",
             endTime: endTime
@@ -158,7 +157,6 @@ final class LiveActivityManager {
         let finalState = EggClockActivityAttributes.ContentState(
             elapsed: finalElapsed,
             total: finalTotal,
-            progress: 1.0,
             hintText: "✅ 煮蛋完成",
             timerState: "done",
             endTime: Date()
